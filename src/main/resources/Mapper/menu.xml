@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yr.mapper.menuMapper" >
+
+    <!--javaBean 传参-->
+    <update id="Update" parameterType="com.yr.pojo.Menu">
+        update menu set price=#{price} where name=#{name}
+    </update>
+
+    <!--在配置文件中使用 “Menu” 指代 “com.yr.pojo.Menu”   ！！！不推荐！！！-->
+    <select id="findall" resultType="Menu">
+    select * from menu
+    </select>
+
+
+    <!--<select id="findone" resultType="com.yr.pojo.Menu">
+    错误写法，无法识别 name 参数
+       select * from menu where name=#{name} and price=#{price}
+
+    正确写法如下：select * from menu where name=#{param1} and price =#{param2}
+    param1 可以替换成 arg0
+    对 arg ，从 0 开始计数，意思同上
+    对 param，从 1 开始计数，如上，第一个参数为 param1
+    param，arg 为 mybatis可识别的，默认的参数写法
+    </select>
+    -->
+    <select id="findone" resultType="com.yr.pojo.Menu">
+        select * from menu where name=#{param1} and price =#{param2}
+    </select>
+
+    <!-- Map 传参-->
+    <select id="findone02" resultType="com.yr.pojo.Menu">
+        select * from menu where name=#{name} and price =#{price}
+    </select>
+
+
+    <!--javaBean 传参-->
+    <insert id="insert" parameterType="com.yr.pojo.Menu" >
+        insert into menu(name,price) values (#{name},#{price})
+    </insert>
+
+</mapper>

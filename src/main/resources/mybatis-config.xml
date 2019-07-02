@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd">
+
+<!--注意 configuration 中各种标签的顺序-->
+<configuration>
+
+    <!--
+    注：对同一属性：username
+    引入的外部的 properties 对该属性 username 设置的值的优先级 高于 本文件中 properties 中的子节点username对该属性的赋值
+
+    dataSource中对该属性 username 设置的值得优先级 高于 引入的外部的 properties 对该属性 username 设置的值
+    -->
+    <properties resource="jdbc.properties">
+        <property name="username" value="1111"/>
+    </properties>
+
+
+    <settings>
+        <setting name="cacheEnabled" value="true"/>
+        <setting name="lazyLoadingEnabled" value="true"/>
+        <setting name="multipleResultSetsEnabled" value="true"/>
+        <setting name="useColumnLabel" value="true"/>
+        <setting name="useGeneratedKeys" value="false"/>
+        <setting name="autoMappingBehavior" value="PARTIAL"/>
+        <setting name="autoMappingUnknownColumnBehavior" value="WARNING"/>
+        <setting name="defaultExecutorType" value="SIMPLE"/>
+        <setting name="defaultStatementTimeout" value="25"/>
+        <setting name="defaultFetchSize" value="100"/>
+        <setting name="safeRowBoundsEnabled" value="false"/>
+
+        <!--开启驼峰命名-->
+        <setting name="mapUnderscoreToCamelCase" value="false"/>
+
+        <setting name="localCacheScope" value="SESSION"/>
+        <setting name="jdbcTypeForNull" value="OTHER"/>
+        <setting name="lazyLoadTriggerMethods" value="equals,clone,hashCode,toString"/>
+    </settings>
+
+    <!--类型别名
+    用一个符号代替工程具体的java 类，便于在 Mapper文件夹下的 .xml文件中使用
+    !!!不推荐使用!!!
+    -->
+    <typeAliases>
+        <!--用 “Menu” 指代 “com.yr.pojo.Menu” -->
+        <!--<typeAlias type="com.yr.pojo.Menu" alias="Menu"/>-->
+
+        <!--直接注册整个包，对包下所有的类有效，默认规则为简写类名(不需要带包名)-->
+        <package name="com.yr.pojo"/>
+    </typeAliases>
+
+
+
+    <environments default="dev">
+        <environment id="dev">
+            <transactionManager type="JDBC"></transactionManager>
+            <dataSource type="UNPOOLED">
+                <property name="url" value="${url}"/>
+                <property name="driver" value="${driver}"/>
+                <!--通过 ${} 引用 properties中设置的属性-->
+                <property name="username" value="${username}"/>
+                <property name="password" value="${password}"/>
+            </dataSource>
+        </environment>
+    </environments>
+
+    <mappers>
+        <!--直接引入相关mapperXml文件-->
+        <mapper resource="Mapper/menu.xml"></mapper>
+
+        <!--引入包，该包下的所有mapperXML文件会自动引入
+        注意：这种方式必须保证接口名（例如IUserDao）和xml名（IUserDao.xml）相同，还必须在同一个包中。
+        -->
+        <!--<package name="resources/Mapper"/>-->
+
+
+
+    </mappers>
+
+</configuration>
