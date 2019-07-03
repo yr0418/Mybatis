@@ -51,7 +51,7 @@
         </where>
     </select>
 
-    <!-- choose 标签，选择要执行的sql 语句，与 switch 类似-->
+    <!-- choose 标签，选择要执行的 sql 语句，与 switch 类似-->
     <select id="finduser01" resultType="com.yr.pojo.User" parameterType="com.yr.pojo.User">
         select * from user
         <where>
