@@ -21,7 +21,11 @@
         <!--开启驼峰命名-->
         <setting name="mapUnderscoreToCamelCase" value="false"/>
 
+        <!--开启日志-->
         <setting name="logImpl" value="LOG4J"/>
+        
+        <setting name="cacheEnabled" value="true"/>
+
     </settings>
 
     <!--类型别名

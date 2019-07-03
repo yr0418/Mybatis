@@ -7,7 +7,9 @@
         update menu set price=#{price} where name=#{name}
     </update>
 
-    <!--在配置文件中使用 “Menu” 指代 “com.yr.pojo.Menu”   ！！！不推荐！！！-->
+    <!--在配置文件中使用 “Menu” 指代 “com.yr.pojo.Menu”   ！！！不推荐！！！
+    测试类：MybatisForParam test02
+    -->
     <select id="findall" resultType="Menu">
     select * from menu
     </select>
@@ -28,13 +30,17 @@
         select * from menu where name=#{param1} and price =#{param2}
     </select>
 
-    <!-- Map 传参-->
+    <!-- Map 传参
+    测试类：MybatisForParam test04
+    -->
     <select id="findone02" resultType="com.yr.pojo.Menu">
         select * from menu where name=#{name} and price =#{price}
     </select>
 
 
-    <!--javaBean 传参-->
+    <!--javaBean 传参
+    测试类：MybatisForParam test01
+    -->
     <insert id="insert" parameterType="com.yr.pojo.Menu" >
         insert into menu(name,price) values (#{name},#{price})
     </insert>

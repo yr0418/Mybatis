@@ -1,6 +1,15 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.yr.mapper.UserMapper" >
+
+    <!--开启 二级缓存-->
+    <cache
+            eviction="FIFO"
+            flushInterval="60000"
+            size="512"
+            readOnly="true"/>
+
+
     <resultMap id="BaseResultMap" type="com.yr.pojo.User" >
         <id column="id" property="id" jdbcType="INTEGER" />
         <result column="username" property="username" jdbcType="VARCHAR" />
@@ -8,7 +17,9 @@
         <result column="nickname" property="nickname" jdbcType="VARCHAR" />
     </resultMap>
 
-    <!--动态sql语句，set 标签消除多余的 “ , ”-->
+    <!--动态sql语句，set 标签消除多余的 “ , ”
+    测试类：MybatisForSql t2
+    -->
     <update id="update" parameterType="com.yr.pojo.User">
         update user
         <set>
@@ -38,6 +49,7 @@
     <!--多个判断条件时，if 语句的书写如下
     1.参数为 null 时不处理
     2.参数为 “” 空字符串时不处理
+    测试类：MybatisForSql t1
     -->
     <select id="finduser" resultType="com.yr.pojo.User">
         select * from user
@@ -69,5 +81,81 @@
         </where>
     </select>
 
+    <!-- trim 标签的使用
+    以各条 sql 语句均被执行了为例
 
+    prefix: 在 sql 语句中 添加 指定的标签，如下所示，将在 username=#{username} 之前添加 关键字 where
+    suffix：在 sql 语句中 添加 指定的标签，如下所示，将在 nickname =#{nickname} 之后添加 关键字 and [sql 语句报错]
+    suffixOverrides:在 sql 语句中 擦除 指定的标签，如下所示，将在 nickname =#{nickname} 之后 擦除 关键字 and
+    prefixOverrides:在 sql 语句中 擦除 指定的标签，如下所示，将在 username=#{username} 之前 擦除 关键字 and
+    测试类：MybatisForSql t3
+    -->
+    <select id="finduser02" resultType="com.yr.pojo.User">
+        select * from user
+        <trim prefix="where" prefixOverrides="and">
+            <if test="username != null">
+                and username=#{username}
+            </if>
+            <if test="password != null">
+                and  password=#{password}
+            </if>
+            <if test="nickname != null">
+                and  nickname =#{nickname}
+            </if>
+        </trim>
+    </select>
+
+    <!-- foreach 标签，以集合作为参数，
+    collection：值为 作为 参数 的集合的名字
+    item：指定一个变量来指代 集合中 单个元素
+    open：foreach标签中 sql 语句 开始符号
+    close：foreach标签中 sql 语句 结束符号
+    separator：各个元素之间的分隔符
+    运行后 sql 的语句示例：select * from user WHERE id in ( ? , ? , ? )
+    测试类：MybatisForSql t4
+    -->
+    <select id="findusersByid" resultType="com.yr.pojo.User">
+        select * from user
+        <where>
+            id in
+            <foreach collection="list" item="id" open="(" close=")" separator=",">
+                #{id}
+            </foreach>
+        </where>
+    </select>
+
+    <!--模糊查询
+    解决方式一：在 应用层 给传入的 参数 带上 % {例：参数值为：%睿%}
+    对应 sql 语句：nickname like #{nickname}
+
+    解决方式二：使用 字符串拼接函数 concat
+    对应 sql 语句为：nickname like concat('%',#{nickname},'%')
+
+    解决方式三：使用 bind 标签，注意标签的使用
+    测试类：MybatisForSql t5
+    -->
+    <select id="finduserLike" resultType="com.yr.pojo.User">
+        select  * from user
+        <where>
+        <bind name="_nickname" value="'%'+nickname+'%'"/>
+            nickname like #{_nickname}
+        </where>
+    </select>
+
+
+    <!-- sql 标签
+    将最常用的 列 抽取出来成为一个 sql 片段，可被引用
+    -->
+    <sql id="basecolumn">
+         username,password
+    </sql>
+    <!-- 完整 sql 语句如下：select username,password from user
+    即查询 basecolumn 中有的 列
+    测试类：MybatisForSql t6
+    -->
+    <select id="selectall" resultType="com.yr.pojo.User">
+        select
+        <include refid="basecolumn"/>
+        from user
+    </select>
 </mapper>

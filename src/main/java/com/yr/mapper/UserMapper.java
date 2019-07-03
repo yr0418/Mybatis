@@ -12,4 +12,14 @@ public interface UserMapper {
     void update(User user);
 
     List<User> finduser01(User user);
+
+    List<User> finduser02(User user);
+
+    List<User> findusersByid(List<Long> list);
+
+    List<User> finduserLike(@Param("nickname") String nickname);
+
+    List<User> selectall();
+
+
 }

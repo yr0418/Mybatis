@@ -33,6 +33,7 @@ public interface menuMapper {
 
     /**上述问题通用解决方法：
      * 添加注解,给传入的参数添加注解，即手动改变 mybatis 的默认参数类型
+     * 测试类：MybatisForParam test03
      */
     @Select("select * from menu where name=#{name} and price =#{price}")
     Menu findone01(@Param("name") String name, @Param("price") int price);
@@ -45,6 +46,7 @@ public interface menuMapper {
 
     /**
      * 传入多个 javaBean
+     * 测试类：MybatisForParam test05
      */
     @Select("select * from menu where name=#{a.name} and price =#{b.price}")
     Menu findone03(@Param("a") A a, @Param("b") B b);
