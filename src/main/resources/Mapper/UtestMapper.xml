@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yr.mapper.UtestMapper" >
+  <resultMap id="BaseResultMap" type="com.yr.pojo.Utest" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="phone" property="phone" jdbcType="VARCHAR" />
+    <result column="password" property="password" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="INTEGER" />
+  </resultMap>
+
+  <!-- mybatis 对于简单的 单标查询 使用 resultType 即可解决
+  对于 多表联合查询，要使用 resultMap 进行详细的描述
+  告诉 mybatis 如何对查询的结果进行封装
+  测试类 ：testForSql m1
+  -->
+  <resultMap id="UtestWithDetails" type="com.yr.pojo.UtestWithUdetails">
+  <!-- Utest 基本信息-->
+    <id property="id" column="uid"/>
+    <result property="password" column="password"/>
+    <result property="phone" column="phone"/>
+    <result property="status" column="status"/>
+  <!--封装 Udetails 类
+  对于 1:1 关系，使用 association 标签-->
+    <association property="udetails" javaType="com.yr.pojo.Udetails">
+      <id property="id" column="udId"/>
+      <result property="nickname" column="nickname"/>
+      <result property="address" column="address"/>
+    </association>
+  </resultMap>
+  <select id="findByid" resultMap="UtestWithDetails">
+    SELECT t1.id as uid,t1.phone,t1.password,t1.status,t2.id as udId,t2.address,t2.nickname
+    from u t1,u_details t2
+    <where>
+      t1.id=t2.u_id
+      and t1.id=#{id}
+    </where>
+  </select>
+</mapper>

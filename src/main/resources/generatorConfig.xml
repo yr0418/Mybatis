@@ -39,8 +39,8 @@
         tableName：表名
         domainObjectName；实体类的名字
         -->
-        <table schema="jsp" tableName="user"
-               domainObjectName="User" enableCountByExample="false"
+        <table schema="jsp" tableName="u_details"
+               domainObjectName="Udetails" enableCountByExample="false"
                enableDeleteByExample="false" enableSelectByExample="false"
                enableUpdateByExample="false">
             <ignoreColumn column="FRED" />
