@@ -23,4 +23,20 @@ public class MybatisForSql {
         sqlSession.commit();
         sqlSession.close();
     }
+    @Test
+    public void t2(){
+        SqlSession sqlSession= mybatisUtil.getSession();
+        UserMapper userMapper=sqlSession.getMapper(com.yr.mapper.UserMapper.class);
+
+        User user=new User();
+        user.setUsername(null);
+        user.setPassword("11234567");
+        user.setNickname("杨睿");
+        user.setId(11);
+
+        userMapper.update(user);
+
+        sqlSession.commit();
+        sqlSession.close();
+    }
 }

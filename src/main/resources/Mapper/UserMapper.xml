@@ -8,7 +8,26 @@
         <result column="nickname" property="nickname" jdbcType="VARCHAR" />
     </resultMap>
 
-    <!--动态sql 使用 if 添加判定条件
+    <!--动态sql语句，set 标签消除多余的 “ , ”-->
+    <update id="update" parameterType="com.yr.pojo.User">
+        update user
+        <set>
+            <if test="username!=null and username!=''">
+                username=#{username},
+            </if>
+            <if test="password !=null and password != ''">
+                password=#{password},
+            </if>
+            <if test="nickname != null and nickname != ''">
+                nickname=#{nickname}
+            </if>
+        </set>
+        <where>
+            id=#{id}
+        </where>
+    </update>
+
+    <!--动态sql 使用 if 标签 添加判定条件
     根据 参数是否为 null 改变 sql 语句
     通过 where 标签解决 and 关键字的问题（即当第一个参数为 null 时）
     where 标签可自动清除多余的 and
@@ -31,4 +50,24 @@
             </if>
         </where>
     </select>
+
+    <!-- choose 标签，选择要执行的sql 语句，与 switch 类似-->
+    <select id="finduser01" resultType="com.yr.pojo.User" parameterType="com.yr.pojo.User">
+        select * from user
+        <where>
+            <choose>
+                <when test="username != null">
+                    and username=#{username}
+                </when>
+                <when test="password != null">
+                    and password =#{password}
+                </when>
+                <otherwise>
+                    and nickname=#{nickname}
+                </otherwise>
+            </choose>
+        </where>
+    </select>
+
+
 </mapper>
