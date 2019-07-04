@@ -13,6 +13,7 @@
   告诉 mybatis 如何对查询的结果进行封装
   测试类 ：testForSql m1
   -->
+  <!--封装方式1-->
   <resultMap id="UtestWithDetails" type="com.yr.pojo.UtestWithUdetails">
   <!-- Utest 基本信息-->
     <id property="id" column="uid"/>
@@ -27,7 +28,19 @@
       <result property="address" column="address"/>
     </association>
   </resultMap>
-  <select id="findByid" resultMap="UtestWithDetails">
+
+  <!--封装方式2-->
+  <resultMap id="UtestWithDetails2" type="com.yr.pojo.UtestWithUdetails">
+    <!-- Utest 基本信息-->
+    <id property="id" column="uid"/>
+    <result property="password" column="password"/>
+    <result property="phone" column="phone"/>
+    <result property="status" column="status"/>
+    <result property="udetails.id" column="udId"/>
+    <result property="udetails.address" column="address"/>
+    <result property="udetails.nickname" column="nickname"/>
+  </resultMap>
+  <select id="findByid" resultMap="UtestWithDetails2">
     SELECT t1.id as uid,t1.phone,t1.password,t1.status,t2.id as udId,t2.address,t2.nickname
     from u t1,u_details t2
     <where>

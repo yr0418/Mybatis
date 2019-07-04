@@ -27,7 +27,7 @@ public interface menuMapper {
   * 注解错误，传入的参数将无法识别,
   * 正确注解如下：
   * @Select("select * from menu where name=#{param1} and price =#{param2}")
-  * 在 menu.xml 文件中写法一致
+  * 在 menuMapper.xml 文件中写法一致
   * */
     Menu findone(String name,int price);
 

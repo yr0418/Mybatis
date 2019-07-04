@@ -10,7 +10,7 @@
     <!--在配置文件中使用 “Menu” 指代 “com.yr.pojo.Menu”   ！！！不推荐！！！
     测试类：MybatisForParam test02
     -->
-    <select id="findall" resultType="Menu">
+    <select id="findall" resultType="com.yr.pojo.Menu">
     select * from menu
     </select>
 

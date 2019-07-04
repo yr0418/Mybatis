@@ -13,7 +13,10 @@ public class testForSql {
         SqlSession sqlSession= mybatisUtil.getSession();
         UtestMapper utestMapper=sqlSession.getMapper(com.yr.mapper.UtestMapper.class);
         UtestWithUdetails utestWithUdetails = utestMapper.findByid(1);
-        System.out.println(utestWithUdetails.getUdetails().getNickname());
+
+        System.out.println(utestWithUdetails.getPassword());
+        System.out.println(utestWithUdetails.getUdetails());
+
         sqlSession.commit();
         sqlSession.close();
     }

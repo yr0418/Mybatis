@@ -42,4 +42,14 @@ public class Udetails implements Serializable {
     public void setAddress(String address) {
         this.address = address == null ? null : address.trim();
     }
+
+    @Override
+    public String toString() {
+        return "Udetails{" +
+                "id=" + id +
+                ", uId=" + uId +
+                ", nickname='" + nickname + '\'' +
+                ", address='" + address + '\'' +
+                '}';
+    }
 }
