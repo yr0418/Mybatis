@@ -82,4 +82,35 @@
       t1.id=#{id}
     </where>
   </select>
+
+  <!--
+  根据用户的id查询该用户的信息以及发布的所有博客以及博客下所有评论
+  用户与博客之间是 1：n 的关系
+  博客与评论之间是 1：n 的关系
+  测试类 ：testForSql m3
+  -->
+  <resultMap id="UtestWithBlog" extends="userbaseMap" type="com.yr.pojo.UtestWithBlog">
+  <!--  封装 blog 1:n 关系，用 collection 描述集合
+  ofType 描述集合中元素-->
+    <collection property="blogList" ofType="com.yr.pojo.Blog">
+      <id property="id" column="bid"/>
+      <result property="title" column="title"/>
+      <result property="summary" column="summary"/>
+      <!--封装 评论-->
+      <collection property="commentList" ofType="com.yr.pojo.Comment">
+        <id property="id" column="cid"/>
+        <result property="content" column="content"/>
+      </collection>
+    </collection>
+  </resultMap>
+  <select id="findByidWithBlog" resultMap="UtestWithBlog">
+    SELECT
+    t1.id as uid ,t1.password,t1.phone,t1.status,
+    t2.id as bid , t2.title,t2.summary,
+    t3.id cid ,t3.content
+    from  u t1,blog t2,comment t3
+    where t1.id=t2.u_id
+    and t2.id=t3.b_id
+    and t1.id=#{id}
+  </select>
 </mapper>
