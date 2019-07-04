@@ -7,4 +7,7 @@
     <result column="nickname" property="nickname" jdbcType="VARCHAR" />
     <result column="address" property="address" jdbcType="VARCHAR" />
   </resultMap>
+    <select id="findByUid" resultMap="BaseResultMap">
+      select * from u_details where u_id=#{uid}
+    </select>
 </mapper>

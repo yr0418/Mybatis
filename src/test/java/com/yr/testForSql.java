@@ -20,4 +20,17 @@ public class testForSql {
         sqlSession.commit();
         sqlSession.close();
     }
+
+    @Test
+    public void m2(){
+        SqlSession sqlSession= mybatisUtil.getSession();
+        UtestMapper utestMapper=sqlSession.getMapper(com.yr.mapper.UtestMapper.class);
+        UtestWithUdetails utestWithUdetails = utestMapper.findByidBystep(1);
+
+        System.out.println(utestWithUdetails.getPassword());
+        System.out.println(utestWithUdetails.getUdetails());
+
+        sqlSession.commit();
+        sqlSession.close();
+    }
 }

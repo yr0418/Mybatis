@@ -26,7 +26,7 @@
             <property name="trimStrings" value="true"/>
         </javaModelGenerator>
         <!--生成mapping,mapper.xml 文件的位置 -->
-        <sqlMapGenerator targetPackage="Mapper"
+        <sqlMapGenerator targetPackage="com.yr.mapper"
                          targetProject="src\main\resources" >
             <property name="enableSubPackages" value="false" />
         </sqlMapGenerator>
@@ -39,8 +39,8 @@
         tableName：表名
         domainObjectName；实体类的名字
         -->
-        <table schema="jsp" tableName="u_details"
-               domainObjectName="Udetails" enableCountByExample="false"
+        <table schema="jsp" tableName="blog"
+               domainObjectName="Blog" enableCountByExample="false"
                enableDeleteByExample="false" enableSelectByExample="false"
                enableUpdateByExample="false">
             <ignoreColumn column="FRED" />

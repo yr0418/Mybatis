@@ -11,9 +11,20 @@
   <!-- mybatis 对于简单的 单标查询 使用 resultType 即可解决
   对于 多表联合查询，要使用 resultMap 进行详细的描述
   告诉 mybatis 如何对查询的结果进行封装
+  resultMap 可继承
   测试类 ：testForSql m1
   -->
-  <!--封装方式1-->
+  <resultMap id="userbaseMap" type="com.yr.pojo.UtestWithUdetails">
+    <!-- Utest 基本信息-->
+    <id property="id" column="uid"/>
+    <result property="password" column="password"/>
+    <result property="phone" column="phone"/>
+    <result property="status" column="status"/>
+  </resultMap>
+
+  <!--封装方式1
+   测试类 ：testForSql m1
+   -->
   <resultMap id="UtestWithDetails" type="com.yr.pojo.UtestWithUdetails">
   <!-- Utest 基本信息-->
     <id property="id" column="uid"/>
@@ -29,7 +40,9 @@
     </association>
   </resultMap>
 
-  <!--封装方式2-->
+  <!--封装方式2
+   测试类 ：testForSql m1
+   -->
   <resultMap id="UtestWithDetails2" type="com.yr.pojo.UtestWithUdetails">
     <!-- Utest 基本信息-->
     <id property="id" column="uid"/>
@@ -40,12 +53,33 @@
     <result property="udetails.address" column="address"/>
     <result property="udetails.nickname" column="nickname"/>
   </resultMap>
+
   <select id="findByid" resultMap="UtestWithDetails2">
     SELECT t1.id as uid,t1.phone,t1.password,t1.status,t2.id as udId,t2.address,t2.nickname
     from u t1,u_details t2
     <where>
       t1.id=t2.u_id
       and t1.id=#{id}
+    </where>
+  </select>
+
+
+
+  <!--封装方式3
+      分步查询，对于过于复杂的查询，推荐使用分步查询
+      在 association 中调用其他 mapper 中的方法
+       测试类 ：testForSql m2
+  -->
+  <resultMap id="UtestWithDetails3" extends="userbaseMap" type="com.yr.pojo.UtestWithUdetails">
+    <association property="udetails" select="com.yr.mapper.UdetailsMapper.findByUid" column="uid">
+
+    </association>
+  </resultMap>
+  <select id="findByidBystep" resultMap="UtestWithDetails3">
+    SELECT t1.id as uid,t1.phone,t1.password,t1.status
+    from u t1
+    <where>
+      t1.id=#{id}
     </where>
   </select>
 </mapper>

@@ -57,15 +57,16 @@
 
     <mappers>
         <!--直接引入相关mapperXml文件-->
-        <mapper resource="com.yr.mapper/menuMapper.xml"/>
-        <mapper resource="com.yr.mapper/UserMapper.xml"/>
-        <mapper resource="com.yr.mapper/UdetailsMapper.xml"/>
-        <mapper resource="com.yr.mapper/UtestMapper.xml"/>
+        <!--<mapper resource="com/yr/mapper/BlogMapper.xml"/>-->
+        <!--<mapper resource="com/yr/mapper/menuMapper.xml"/>-->
+        <!--<mapper resource="com/yr/mapper/UdetailsMapper.xml"/>-->
+        <!--<mapper resource="com/yr/mapper/UserMapper.xml"/>-->
+        <!--<mapper resource="com/yr/mapper/UtestMapper.xml"/>-->
 
         <!--引入包，该包下的所有mapperXML文件会自动引入
         注意：这种方式必须保证接口名（例如IUserDao）和xml名（IUserDao.xml）相同，还必须在同一个包中。
         -->
-        <!--<package name="com.yr.mapper"/>-->
+        <package name="com.yr.mapper"/>
     </mappers>
 
 </configuration>
